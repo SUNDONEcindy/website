@@ -1,7 +1,7 @@
 import "regenerator-runtime/runtime";
 import "core-js";
 
-import { cx, css } from "@emotion/css";
+import styles from "./Repl.module.css";
 import debounce from "lodash.debounce";
 import React, { type ChangeEvent } from "react";
 import { prettySize, compareVersions } from "./lib/utils";
@@ -37,7 +37,6 @@ import {
 } from "./lib/replUtils";
 import WorkerApi from "./lib/workerApi";
 import scopedEval from "./lib/scopedEval";
-import { media } from "./lib/styles";
 import { toCamelCase, hasOwnProperty } from "./lib/utils";
 
 import type {
@@ -365,7 +364,7 @@ class Repl extends React.Component<Props, State> {
         />
         <div className={styles.wrapperPanels}>
           <div
-            className={cx(styles.panels, !state.timeTravel && styles.panelsMax)}
+            className={`${styles.panels} ${!state.timeTravel ? styles.panelsMax : ""}`}
           >
             <div className={styles.codePanel}>
               <Tabs
@@ -934,51 +933,3 @@ export default function ReplWithErrorBoundary() {
     </ErrorBoundary>
   );
 }
-
-export const styles = {
-  codePanel: css({
-    flex: "0 0 50%",
-    display: "flex",
-    flexDirection: "column",
-    minWidth: 0,
-    borderRight: `1px solid var(--ifm-scrollbar-track-background-color)`,
-  }),
-  optionsColumn: css({
-    flex: "0 0 auto",
-  }),
-  repl: css`
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: stretch;
-    overflow: auto;
-    font-size: 0.875rem;
-    ${media.mediumAndDown} {
-      flex-direction: column;
-    }
-  `,
-  wrapperPanels: css({
-    height: "100%",
-    width: "100%",
-    justifyContent: "stretch",
-    overflow: "hidden",
-  }),
-  panels: css({
-    height: "85%",
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "stretch",
-    overflow: "auto",
-    fontSize: "0.875rem",
-    lineHeight: "1.25rem",
-  }),
-  panelsMax: css({
-    height: "100% !important",
-  }),
-  sliders: css({
-    height: "20%",
-    margin: 0,
-  }),
-};
